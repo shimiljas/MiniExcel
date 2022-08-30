@@ -17,7 +17,6 @@ export default class Table extends React.Component {
 
    handleChangedCell = ({ x, y }, value) => {
     const modifiedData = Object.assign({}, this.state.data)
-    
     if (!modifiedData[y]) modifiedData[y] = {}
     modifiedData[y][x] = value
     if(modifiedData[y][0]&&modifiedData[y][1]){
@@ -31,6 +30,10 @@ export default class Table extends React.Component {
         if(modifiedData[y][1]){
           modifiedData[y][2]=0+Number(modifiedData[y][1])
           modifiedData[y][3]=1*Number(modifiedData[y][1])
+        }
+        if(!modifiedData[y][0]&&!modifiedData[y][1]){
+            modifiedData[y][2]=''
+            modifiedData[y][3]=''
         }
 
     }

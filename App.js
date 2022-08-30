@@ -31,7 +31,8 @@ const style=StyleSheet.create({
   text:{
     alignSelf:'center',
     paddingBottom:10,
-    color:'black'
+    color:'black',
+    fontSize:20
   }
 })
 
