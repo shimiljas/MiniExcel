@@ -19,7 +19,7 @@ const InputBox = ({
     return (
       <TextInput
         placeholder={`${y},${x}`}
-        style={[style.continer,!value&&{fontSize:15,opacity:1}]}
+        style={[style.continer, !value && {fontSize: 15, opacity: 1}]}
         onChangeText={text =>
           onChangeText(
             {
@@ -77,7 +77,7 @@ const style = StyleSheet.create({
     borderColor: 'black',
     minWidth: 70,
   },
-  placeholder:{
+  placeholder: {
     height: 60,
     backgroundColor: '#F6F6F6',
     fontFamily: 'Montserrat-Regular',
@@ -88,9 +88,9 @@ const style = StyleSheet.create({
     alignItems: 'center',
     color: 'black',
     minWidth: 70,
-    paddingLeft:20,
-    borderRightWidth: 0, 
-    borderBottomWidth: 0
+    paddingLeft: 20,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
   },
 
   continer: {
@@ -104,9 +104,9 @@ const style = StyleSheet.create({
     alignItems: 'center',
     color: 'black',
     minWidth: 70,
-    paddingLeft:20,
-    borderRightWidth: 0, 
-    borderBottomWidth: 0
+    paddingLeft: 20,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
   },
 });
 
