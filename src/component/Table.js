@@ -43,13 +43,18 @@ export default class Table extends React.Component {
     for (let y = 0; y < this.props.y + 1; y += 1) {
       const rowData = this.state.data[y] || {}
       rows.push(
-        <Row
-            key={y}
-            y={y}
-            x={this.props.x + 1}
-            handleChangedCell={this.handleChangedCell}
-            rowData={this.state.data}
-      />,
+        <View style={{flexDirection:'row'}}>
+            <View style={{width:40,height:50,alignItems:'center',justifyContent:'center'}}>
+            <Text>{y}</Text>
+            </View>
+            <Row
+                key={y}
+                y={y}
+                x={this.props.x + 1}
+                handleChangedCell={this.handleChangedCell}
+                rowData={this.state.data}
+        />
+      </View>
       )
     }
     return (

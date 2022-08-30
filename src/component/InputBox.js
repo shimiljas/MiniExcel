@@ -61,26 +61,26 @@ const style = StyleSheet.create({
   },
   containerBox:{
     height: 60,
-    width:width/4,
+    // width:'100%',
     backgroundColor: '#F6F6F6',
     fontFamily: 'Montserrat-Regular',
     alignItems:'center',
     justifyContent:'center',
-    borderWidth: 1,
+    borderWidth: 0.6,
     borderColor: 'black',
+    minWidth:70
   },
   continer: {
     height: 60,
-    width:width/4,
     backgroundColor: '#F6F6F6',
     fontFamily: 'Montserrat-Regular',
-    borderWidth: 1,
+    borderWidth: 0.6,
     paddingLeft: 10,
     borderColor: 'black',
     fontSize:20,
     alignItems:'center',
-    paddingLeft:width/8-4,
-    color:'black'
+    color:'black',
+    minWidth:70
   },
 });
 
