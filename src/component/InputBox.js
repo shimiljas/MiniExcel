@@ -2,10 +2,8 @@ import React from 'react';
 import {StyleSheet, TextInput, Text, View} from 'react-native';
 const InputBox = ({
   onChangeText,
-  autoCapitalize,
   value,
   returnKeyType,
-  editable,
   x,
   y,
   rowData,
@@ -18,8 +16,6 @@ const InputBox = ({
         onChangeText={text => onChangeText({x, y}, text)}
         keyboardType={'numeric'}
         value={value}
-        autoCapitalize={autoCapitalize}
-        editable={editable}
         returnKeyType={returnKeyType ? returnKeyType : 'done'}
       />
     );
