@@ -23,19 +23,11 @@ export default class Table extends React.Component {
         Number(modifiedData[y][0]) + Number(modifiedData[y][1]);
       modifiedData[y][3] =
         Number(modifiedData[y][0]) * Number(modifiedData[y][1]);
-    } else {
-      if (modifiedData[y][0]) {
-        modifiedData[y][2] = Number(modifiedData[y][0]) + 0;
-        modifiedData[y][3] = Number(modifiedData[y][0]) * 1;
-      }
-      if (modifiedData[y][1]) {
-        modifiedData[y][2] = 0 + Number(modifiedData[y][1]);
-        modifiedData[y][3] = 1 * Number(modifiedData[y][1]);
-      }
-      if (!modifiedData[y][0] && !modifiedData[y][1]) {
-        modifiedData[y][2] = '';
-        modifiedData[y][3] = '';
-      }
+    }
+
+    if (!modifiedData[y][0] || !modifiedData[y][1]) {
+      modifiedData[y][2] = '';
+      modifiedData[y][3] = '';
     }
     this.setState({data: modifiedData});
   };
