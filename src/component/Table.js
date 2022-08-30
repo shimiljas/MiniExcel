@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import React from 'react'
-import {Text,View} from 'react-native'
+import {Text,View,StyleSheet} from 'react-native'
 import Row from './Row'
 /**
  * Table creates a table with x rows and y columns
@@ -44,8 +44,8 @@ export default class Table extends React.Component {
       const rowData = this.state.data[y] || {}
       rows.push(
         <View style={{flexDirection:'row'}}>
-            <View style={{width:40,height:50,alignItems:'center',justifyContent:'center'}}>
-            <Text>{y}</Text>
+            <View style={style.container}>
+              <Text style={{paddingTop:y==0?50:0}}>{y}</Text>
             </View>
             <Row
                 key={y}
@@ -65,3 +65,10 @@ export default class Table extends React.Component {
   }
 }
 
+const style=StyleSheet.create({
+    container:{
+        width:40,
+        alignItems:'center',
+        justifyContent:'center'
+    }
+})

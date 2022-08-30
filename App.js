@@ -9,6 +9,9 @@
 import React from 'react';
 import {
   View,
+  SafeAreaView,
+  Text,
+  StyleSheet
 } from 'react-native';
 
 import HomeScreen from './src/HomeScreen'
@@ -16,10 +19,20 @@ import HomeScreen from './src/HomeScreen'
 
 const App= () => {
   return (
-    <View style={{flex:1}}>
-     <HomeScreen/>
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex:1,marginTop:30,paddingLeft:20}}>
+       <Text style={style.text}>Mini Excel sheet</Text>
+      <HomeScreen/>
+      </View>
+    </SafeAreaView>
   );
 };
+const style=StyleSheet.create({
+  text:{
+    alignSelf:'center',
+    paddingBottom:10,
+    color:'black'
+  }
+})
 
 export default App;
