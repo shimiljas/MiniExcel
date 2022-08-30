@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
-import InputBox from './component/InputBox';
+import { ScrollView} from 'react-native';
 import Table from './component/Table';
 const HomeScreen = () => {
   return (

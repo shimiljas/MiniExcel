@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
   View,
@@ -22,7 +14,7 @@ const App= () => {
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex:1,marginTop:30,paddingLeft:20}}>
        <Text style={style.text}>Mini Excel sheet</Text>
-      <HomeScreen/>
+       <HomeScreen/>
       </View>
     </SafeAreaView>
   );

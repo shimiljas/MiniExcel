@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import InputBox from './InputBox';
-const renderText = c => {
+const renderHeader = c => {
   if (c == 0) return 'A';
   if (c == 1) return 'B';
   if (c == 2) return 'A+B';
@@ -12,12 +12,10 @@ const Row = props => {
   const y = props.y;
   for (let x = 0; x < props.x; x += 1) {
     cells.push(
-      <View stye={{flex: 1, justifyContent: 'center'}}>
+      <View stye={style.justifyContainer}>
         {y == 0 && (
           <View style={style.textContainer}>
-            <Text style={{textAlign: 'center', color: 'black'}}>
-              {renderText(x)}
-            </Text>
+            <Text style={style.textStyle}>{renderHeader(x)}</Text>
           </View>
         )}
         <InputBox
@@ -29,10 +27,21 @@ const Row = props => {
       </View>,
     );
   }
-  return <View style={{flexDirection: 'row'}}>{cells}</View>;
+  return <View style={style.rowContainer}>{cells}</View>;
 };
 
 const style = StyleSheet.create({
+  rowContainer:{
+    flexDirection: 'row'
+  },
+  justifyContainer:{
+    flex: 1,
+     justifyContent: 'center'
+  },
+  textStyle: {
+    textAlign: 'center',
+    color: 'black',
+  },
   textContainer: {
     height: 40,
     backgroundColor: 'grey',

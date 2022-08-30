@@ -1,15 +1,10 @@
 import React from 'react';
-import {StyleSheet, TextInput, Dimensions, Text, View} from 'react-native';
-const width = Dimensions.get('window').width;
+import {StyleSheet, TextInput, Text, View} from 'react-native';
 const InputBox = ({
-  placeholder,
   onChangeText,
-  keyboardType,
   autoCapitalize,
   value,
   returnKeyType,
-  error,
-  textArea,
   editable,
   x,
   y,
@@ -20,15 +15,7 @@ const InputBox = ({
       <TextInput
         placeholder={`${y},${x}`}
         style={[style.continer, !value && {fontSize: 15, opacity: 1}]}
-        onChangeText={text =>
-          onChangeText(
-            {
-              x: x,
-              y: y,
-            },
-            text,
-          )
-        }
+        onChangeText={text => onChangeText({x, y}, text)}
         keyboardType={'numeric'}
         value={value}
         autoCapitalize={autoCapitalize}
@@ -39,11 +26,7 @@ const InputBox = ({
   } else {
     if (x == 2) {
       return (
-        <View
-          style={[
-            style.containerBox,
-            {borderRightWidth: 0, borderBottomWidth: 0},
-          ]}>
+        <View style={[style.containerBox, {borderRightWidth: 0}]}>
           <Text style={style.text}>
             {!isNaN(rowData?.[y]?.[2]) ? rowData?.[y]?.[2] : ''}
           </Text>
@@ -52,7 +35,7 @@ const InputBox = ({
     }
     if (x == 3) {
       return (
-        <View style={[style.containerBox, {borderBottomWidth: 0}]}>
+        <View style={style.containerBox}>
           <Text style={style.text}>
             {!isNaN(rowData?.[y]?.[3]) ? rowData?.[y]?.[3] : ''}
           </Text>
@@ -68,7 +51,6 @@ const style = StyleSheet.create({
   },
   containerBox: {
     height: 60,
-    // width:'100%',
     backgroundColor: '#F6F6F6',
     fontFamily: 'Montserrat-Regular',
     alignItems: 'center',
@@ -76,23 +58,8 @@ const style = StyleSheet.create({
     borderWidth: 0.6,
     borderColor: 'black',
     minWidth: 70,
-  },
-  placeholder: {
-    height: 60,
-    backgroundColor: '#F6F6F6',
-    fontFamily: 'Montserrat-Regular',
-    borderWidth: 0.6,
-    paddingLeft: 10,
-    borderColor: 'black',
-    fontSize: 20,
-    alignItems: 'center',
-    color: 'black',
-    minWidth: 70,
-    paddingLeft: 20,
-    borderRightWidth: 0,
     borderBottomWidth: 0,
   },
-
   continer: {
     height: 60,
     backgroundColor: '#F6F6F6',
