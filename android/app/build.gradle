@@ -227,7 +227,7 @@ android {
         release {
             storeFile file('your_key_name.keystore')
             storePassword 'shimil'
-            keyAlias 'shimil'
+            keyAlias 'your_key_alias'
             keyPassword 'shimil'
        }
     }
