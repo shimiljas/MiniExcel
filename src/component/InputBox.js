@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
 const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
-import {convertion,isHaveValidParanthesis} from '../util';
+import {convertion, isHaveValidParanthesis} from '../util';
 import Toast from 'react-native-toast-message';
 
 const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
@@ -14,15 +14,12 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
   }, [rowData]);
 
   const onSubmitEditing = () => {
-    if (text?.length == 0) return;
-    
     if (!isNaN(text)) {
       onChangeText({x, y}, text);
     } else {
       let splited = text?.split(/([-+*()\/])/).filter(e => e);
       if (splited && splited?.length == 0) return;
       let valid = true;
-      console.log(splited, 'splited');
       for (let i = 0; i < splited?.length; i++) {
         if (splited[i].length == 0 && splited[i].length > 3) {
           console.log('herer----->1');
@@ -66,9 +63,26 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
       if (valid) {
         let updateText = text;
         if (isNaN(updateText) || updateText !== '+' || updateText !== '*') {
-          if (rowData?.[y]?.[x] !== text) updateText = `(${updateText})`;
+          if (isHaveValidParanthesis(text) > 0) {
+            setText('');
+            Toast.show({
+              type: 'error',
+              text1: 'Invalid input',
+              text2: 'This is not a valid input',
+            });
+            onChangeText({x, y}, '0')
+            return;
+          }
+          if (rowData?.[y]?.[x] !== text) {
+            if (updateText.endsWith('+') || updateText.endsWith('*')) {
+              updateText = updateText.slice(0, -1);
+            }
+            updateText = `(${updateText})`;
+            onChangeText({x, y}, updateText);
+          }
+        } else {
+          onChangeText({x, y}, updateText);
         }
-        onChangeText({x, y}, updateText);
       } else {
         setText('');
         Toast.show({

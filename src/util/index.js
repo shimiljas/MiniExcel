@@ -56,24 +56,17 @@ export const doesConvertionCompleted = arr => {
 
 
 
-export const isHaveValidParanthesis = (s) => {
-  if (s.length % 2 !== 0) return false;
-  
-  const stack = [];
-  const map = new Map([
-    ['(', ')'],
-    ['[', ']'],
-    ['{', '}']
-  ]);
-    
-  for (let i = 0 ; i < s.length ; i += 1) {
-    if (map.has(s[i])) {
-      stack.push(map.get(s[i]));
-    } else if (s[i] !== stack.pop()) {
-      return false;
-    } 
-  }
-  return stack.length === 0;
+export const isHaveValidParanthesis = (str) => {
+  let brackets = [];
+    for (let i = 0; i < str.length; i++) {     
+        if (str[i] === "(") {
+            brackets.push(str[i]);
+        } else if (str[i] === ")") {
+            if (brackets[brackets.length - 1] === "(") brackets.pop();
+            else brackets.push("#");
+        }
+    }
+    return brackets.length;
 };
 
 export const convertion = (text, rawData) => {
@@ -99,9 +92,6 @@ export const convertion = (text, rawData) => {
   }
   console.log(updatedEx,"updatedEx")
   if (updatedEx) {
-    if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {
-      updatedEx = updatedEx.slice(0, -1);
-    }
     try{
       return eval(updatedEx).toString()
     }catch{
