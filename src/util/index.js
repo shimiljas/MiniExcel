@@ -20,7 +20,7 @@ export const findValue = (param, rawData) => {
   } else {
     let colOne = convertString(param.charAt(0));
     let rowOne = Number(param.replace(/^\D+/g, ''));
-    if (rawData?.[rowOne]?.[colOne] && !isNaN(rawData?.[rowOne]?.[colOne])) {
+    if (rawData?.[rowOne]?.[colOne]) {
       return rawData?.[rowOne]?.[colOne];
     } else {
       return '0';
