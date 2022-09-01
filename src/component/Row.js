@@ -4,8 +4,8 @@ import InputBox from './InputBox';
 const renderHeader = c => {
   if (c == 0) return 'A';
   if (c == 1) return 'B';
-  if (c == 2) return 'A+B';
-  if (c == 3) return 'A*B';
+  if (c == 2) return 'C';
+  if (c == 3) return 'D';
 };
 const Row = props => {
   const cells = [];

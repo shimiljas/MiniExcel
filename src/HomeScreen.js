@@ -4,7 +4,7 @@ import Table from './component/Table';
 const HomeScreen = () => {
   return (
     <ScrollView style={{flex: 1}}>
-      <Table x={4} y={50} />
+      <Table x={3} y={50} />
     </ScrollView>
   );
 };

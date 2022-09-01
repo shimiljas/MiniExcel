@@ -1,44 +1,102 @@
-import React from 'react';
-import {StyleSheet, TextInput, Text, View} from 'react-native';
-const InputBox = ({
-  onChangeText,
-  value,
-  returnKeyType,
-  x,
-  y,
-  rowData,
-}) => {
-  if (x < 2) {
-    return (
-      <TextInput
-        placeholder={`${y},${x}`}
-        style={[style.continer, !value && {fontSize: 15, opacity: 1}]}
-        onChangeText={text => onChangeText({x, y}, text)}
-        keyboardType={'numeric'}
-        value={value}
-        returnKeyType={returnKeyType ? returnKeyType : 'done'}
-      />
-    );
-  } else {
-    if (x == 2) {
-      return (
-        <View style={[style.containerBox, {borderRightWidth: 0}]}>
-          <Text style={style.text}>
-            {!isNaN(rowData?.[y]?.[2]) ? rowData?.[y]?.[2] : ''}
-          </Text>
-        </View>
-      );
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, TextInput} from 'react-native';
+
+const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
+import { convertion} from '../util';
+
+const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
+  const [text, setText] = useState(rowData?.[y]?.[x]);
+  const [converted, setConverted] = useState('');
+
+  useEffect(() => {
+    convertValue();
+  }, [rowData]);
+
+  const onSubmitEditing = () => {
+    if (text?.length == 0) return;
+    if (!isNaN(text)) {
+      onChangeText({x, y}, text);
+    } else {
+      let splited = text?.split(/([-+*\/])/);
+      if (splited && splited?.length == 0) return;
+      let valid = true;
+      for (let i = 0; i < splited?.length; i++) {
+        if (splited[i].length == 0 && splited[i].length > 3) {
+          valid = false;
+          break;
+        }
+        if (splited[i] == '%' || splited[i] == '/') {
+          valid = false;
+          break;
+        }
+
+        if (
+          splited[i].toLowerCase() != splited[i].toUpperCase() &&
+          splited[i].length == 1
+        ) {
+          valid = false;
+          break;
+        }
+        if (
+          typeof splited[i]?.charAt(0) !== 'string' ||
+          isNaN(splited[i]?.charAt(1) * 1)
+        ) {
+          valid = false;
+          break;
+        }
+        if (
+          splited[i]?.length !== 1 &&
+          !COLUMNS.includes(splited[i].charAt(0))
+        ) {
+          valid = false;
+          break;
+        }
+        if (Number(splited[i].substring(1)) > 50) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        if(text) onChangeText({x, y}, text);
+      } else {
+        setText('');
+      }
     }
-    if (x == 3) {
-      return (
-        <View style={style.containerBox}>
-          <Text style={style.text}>
-            {!isNaN(rowData?.[y]?.[3]) ? rowData?.[y]?.[3] : ''}
-          </Text>
-        </View>
-      );
+  };
+
+  const convertValue = () => {
+    if (rowData?.[y]?.[x] && isNaN(rowData?.[y]?.[x])) {
+      let conv = convertion(rowData?.[y]?.[x], rowData);
+      if (conv) {
+        setConverted(conv);
+      } else {
+        setText('');
+      }
     }
-  }
+  };
+  const onFocus = () => {
+    setConverted('');
+    if (rowData?.[y]?.[x]) {
+      setText(rowData?.[y]?.[x]);
+    }
+  };
+  return (
+    <TextInput
+      placeholder={`${x} ${y}`}
+      style={[
+        style.continer,
+        {fontSize: 15, opacity: 1, borderRightWidth: x == 3 ? 1 : 0},
+      ]}
+      onChangeText={text => setText(text)}
+      value={converted?.length > 0 ? converted : text}
+      returnKeyType={returnKeyType ? returnKeyType : 'done'}
+      keyboardType="default"
+      autoCapitalize="characters"
+      onSubmitEditing={onSubmitEditing}
+      onBlur={convertValue}
+      onFocus={onFocus}
+    />
+  );
 };
 const style = StyleSheet.create({
   text: {
@@ -67,6 +125,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     color: 'black',
     minWidth: 70,
+    maxWidth: 70,
     paddingLeft: 20,
     borderRightWidth: 0,
     borderBottomWidth: 0,
