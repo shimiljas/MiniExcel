@@ -15,11 +15,19 @@ export default class Table extends React.Component {
   handleChangedCell = ({x, y}, value) => {
     let modifiedData = Object.assign({}, this.state.data);
     if (!modifiedData[y]) modifiedData[y] = {};
-    modifiedData[y][x] = value;
+    modifiedData[y][x] =value;
     this.setState({data: modifiedData},()=>{
       console.log(this.state.data)
     });
   };
+  removeText=({x,y})=>{
+    let modifiedData = Object.assign({}, this.state.data);
+     if(modifiedData?.[y]?.[x]) delete modifiedData[y][x]
+     this.setState({data: modifiedData},()=>{
+      console.log(this.state.data)
+    });
+
+  }
 
   render() {
     const rows = [];
@@ -36,6 +44,7 @@ export default class Table extends React.Component {
             x={this.props.x + 1}
             handleChangedCell={this.handleChangedCell}
             rowData={this.state.data}
+            removeText={this.removeText}
           />
         </View>,
       );

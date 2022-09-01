@@ -23,6 +23,7 @@ const Row = props => {
           y={y}
           onChangeText={props.handleChangedCell}
           rowData={props?.rowData}
+          removeText={props.removeText}
         />
       </View>,
     );
