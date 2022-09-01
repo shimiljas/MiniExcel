@@ -1,3 +1,6 @@
+import Toast from 'react-native-toast-message';
+
+
 export const containsSpecialChars = str => {
   const specialChars = /[`!@#$%^&()_\-=\[\]{};':"\\|,.<>\/?~]/;
   return specialChars.test(str);
@@ -21,7 +24,7 @@ export const findValue = (param, rawData) => {
     if (rawData?.[rowOne]?.[colOne]) {
       return rawData?.[rowOne]?.[colOne];
     } else {
-      return '';
+      return '0';
     }
   }
 };
@@ -50,6 +53,29 @@ export const doesConvertionCompleted = arr => {
   return returnValue;
 };
 
+
+
+
+export const isHaveValidParanthesis = (s) => {
+  if (s.length % 2 !== 0) return false;
+  
+  const stack = [];
+  const map = new Map([
+    ['(', ')'],
+    ['[', ']'],
+    ['{', '}']
+  ]);
+    
+  for (let i = 0 ; i < s.length ; i += 1) {
+    if (map.has(s[i])) {
+      stack.push(map.get(s[i]));
+    } else if (s[i] !== stack.pop()) {
+      return false;
+    } 
+  }
+  return stack.length === 0;
+};
+
 export const convertion = (text, rawData) => {
   if (text?.length == 0) return;
   let updatedEx = '';
@@ -71,10 +97,16 @@ export const convertion = (text, rawData) => {
     let reomvedString = splited.filter(e => e);
     updatedEx = updatedEx + reomvedString.join('');
   }
+  console.log(updatedEx,"updatedEx")
   if (updatedEx) {
     if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {
       updatedEx = updatedEx.slice(0, -1);
     }
-    return eval(updatedEx).toString();
+    try{
+      return eval(updatedEx).toString()
+    }catch{
+      return ''
+    }
+    
   }
 };

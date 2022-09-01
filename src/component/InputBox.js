@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
 const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
-import {convertion} from '../util';
+import {convertion,isHaveValidParanthesis} from '../util';
 import Toast from 'react-native-toast-message';
 
 const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
@@ -15,26 +15,31 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
 
   const onSubmitEditing = () => {
     if (text?.length == 0) return;
+    
     if (!isNaN(text)) {
       onChangeText({x, y}, text);
     } else {
-      let splited = text?.split(/([-+*\/])/);
+      let splited = text?.split(/([-+*()\/])/).filter(e => e);
       if (splited && splited?.length == 0) return;
       let valid = true;
+      console.log(splited, 'splited');
       for (let i = 0; i < splited?.length; i++) {
         if (splited[i].length == 0 && splited[i].length > 3) {
+          console.log('herer----->1');
           valid = false;
           break;
         }
         if (splited[i] == '%' || splited[i] == '/' || splited[i] == '-') {
+          console.log('herer----->2');
           valid = false;
           break;
         }
 
         if (
-          splited[i].toLowerCase() != splited[i].toUpperCase() &&
-          splited[i].length == 1
+          splited[i].length == 1 &&
+          splited[i].toLowerCase() != splited[i].toUpperCase()
         ) {
+          console.log('herer----->3');
           valid = false;
           break;
         }
@@ -47,6 +52,7 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
         }
         if (
           splited[i]?.length !== 1 &&
+          isNaN(splited[i].charAt(0)) &&
           !COLUMNS.includes(splited[i].charAt(0))
         ) {
           valid = false;
@@ -60,9 +66,9 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
       if (valid) {
         let updateText = text;
         if (isNaN(updateText) || updateText !== '+' || updateText !== '*') {
-          updateText = `(${updateText})`;
+          if (rowData?.[y]?.[x] !== text) updateText = `(${updateText})`;
         }
-        if (updateText) onChangeText({x, y}, updateText);
+        onChangeText({x, y}, updateText);
       } else {
         setText('');
         Toast.show({
