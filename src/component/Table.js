@@ -19,52 +19,6 @@ export default class Table extends React.Component {
     this.setState({data: modifiedData},()=>{
       console.log(this.state.data)
     });
-    // if (!isNaN(value)) {
-     
-    // } else {
-    //   let updatedEx = '';
-    //   let columns = value.split(/([-+*\/])/);
-    //   for (let i = 0; i < columns.length; i++) {
-    //     if (!isNaN(columns[i])) {
-    //       updatedEx = updatedEx + columns[i];
-    //     }
-    //     if (columns[i] == '+' || columns[i] == '*') {
-    //       if (updatedEx) {
-    //         updatedEx = updatedEx + columns[i];
-    //       }
-    //     }
-    //     if (
-    //       typeof columns[i]?.charAt(0) == 'string' &&
-    //       !isNaN(columns[i]?.charAt(1) * 1)
-    //     ) {
-    //       if (
-    //         columns[i].charAt(0) == 'a' ||
-    //         columns[i].charAt(0) == 'A' ||
-    //         columns[i].charAt(0) == 'b' ||
-    //         columns[i].charAt(0) == 'B' ||
-    //         columns[i].charAt(0) == 'c' ||
-    //         columns[i].charAt(0) == 'C' ||
-    //         columns[i].charAt(0) == 'd' ||
-    //         columns[i].charAt(0) == 'D'
-    //       ) {
-    //         let col = this.convertString(columns[i].charAt(0));
-    //         let row = Number(columns[i].replace(/^\D+/g, ''));
-    //         if (modifiedData[row] && modifiedData?.[row]?.[col]) {
-    //           updatedEx = updatedEx + modifiedData?.[row]?.[col];
-    //         }
-    //       }
-    //     }
-    //   }
-    //   if (updatedEx) {
-    //     if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {
-    //       updatedEx = updatedEx.slice(0, -1);
-    //     }
-    //     modifiedData[y][x] = updatedEx;
-    //       this.setState({data: modifiedData},()=>{
-    //         console.log(modifiedData,"modifiedData")
-    //     });
-    //   }
-    // }
   };
 
   render() {

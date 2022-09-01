@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
 const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
-import { convertion} from '../util';
+import {convertion} from '../util';
+import Toast from 'react-native-toast-message';
 
 const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
   const [text, setText] = useState(rowData?.[y]?.[x]);
@@ -25,7 +26,7 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
           valid = false;
           break;
         }
-        if (splited[i] == '%' || splited[i] == '/') {
+        if (splited[i] == '%' || splited[i] == '/' || splited[i] == '-') {
           valid = false;
           break;
         }
@@ -57,9 +58,18 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
         }
       }
       if (valid) {
-        if(text) onChangeText({x, y}, text);
+        let updateText = text;
+        if (isNaN(updateText) || updateText !== '+' || updateText !== '*') {
+          updateText = `(${updateText})`;
+        }
+        if (updateText) onChangeText({x, y}, updateText);
       } else {
         setText('');
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid input',
+          text2: 'This is not a valid input',
+        });
       }
     }
   };

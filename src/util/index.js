@@ -13,7 +13,7 @@ export const convertString = variable => {
 export const findValue = (param, rawData) => {
   if (!isNaN(param)) {
     return param;
-  } else if (param == '+' || param == '*') {
+  } else if (param == '+' || param == '*' || param == ')' || param == '(') {
     return param;
   } else {
     let colOne = convertString(param.charAt(0));
@@ -26,9 +26,8 @@ export const findValue = (param, rawData) => {
   }
 };
 
-
 export const checkValue = va => {
-  if (va !== '+' && va !== '*' && isNaN(va)) {
+  if (va !== '(' && va !== ')' && va !== '+' && va !== '*' && isNaN(va)) {
     return false;
   } else {
     return true;
@@ -38,7 +37,13 @@ export const checkValue = va => {
 export const doesConvertionCompleted = arr => {
   let returnValue = true;
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] !== '+' && arr[i] !== '*' && isNaN(arr[i])) {
+    if (
+      arr[i] !== '(' &&
+      arr[i] !== ')' &&
+      arr[i] !== '+' &&
+      arr[i] !== '*' &&
+      isNaN(arr[i])
+    ) {
       returnValue = false;
     }
   }
@@ -48,7 +53,7 @@ export const doesConvertionCompleted = arr => {
 export const convertion = (text, rawData) => {
   if (text?.length == 0) return;
   let updatedEx = '';
-  let splited = text.split(/([-+*\/])/);
+  let splited = text.split(/([-+*()\/])/).filter(e => e);
   let i = 0;
   while (true) {
     let temp = findValue(splited[i], rawData);
@@ -56,14 +61,15 @@ export const convertion = (text, rawData) => {
       splited[i] = temp;
       i++;
     } else {
-      let tempArray=temp.split(/([-+*\/])/)
-      splited.splice(...[i,1].concat(tempArray))
-      i=0
+      let tempArray = temp.split(/([-+*()\/])/).filter(e => e);
+      splited.splice(...[i, 1].concat(tempArray));
+      i = 0;
     }
     if (doesConvertionCompleted(splited)) break;
   }
   if (splited && splited?.length > 0) {
-    updatedEx = updatedEx + splited.join('');
+    let reomvedString = splited.filter(e => e);
+    updatedEx = updatedEx + reomvedString.join('');
   }
   if (updatedEx) {
     if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {

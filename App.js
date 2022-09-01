@@ -5,7 +5,7 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
-
+import Toast from 'react-native-toast-message';
 import HomeScreen from './src/HomeScreen'
 
 
@@ -16,6 +16,7 @@ const App= () => {
        <Text style={style.text}>Mini Excel sheet</Text>
        <HomeScreen/>
       </View>
+      <Toast />
     </SafeAreaView>
   );
 };
