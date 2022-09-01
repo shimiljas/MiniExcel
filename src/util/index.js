@@ -1,6 +1,5 @@
 import Toast from 'react-native-toast-message';
 
-
 export const containsSpecialChars = str => {
   const specialChars = /[`!@#$%^&()_\-=\[\]{};':"\\|,.<>\/?~]/;
   return specialChars.test(str);
@@ -21,7 +20,7 @@ export const findValue = (param, rawData) => {
   } else {
     let colOne = convertString(param.charAt(0));
     let rowOne = Number(param.replace(/^\D+/g, ''));
-    if (rawData?.[rowOne]?.[colOne]) {
+    if (rawData?.[rowOne]?.[colOne] && !isNaN(rawData?.[rowOne]?.[colOne])) {
       return rawData?.[rowOne]?.[colOne];
     } else {
       return '0';
@@ -30,10 +29,10 @@ export const findValue = (param, rawData) => {
 };
 
 export const checkValue = va => {
-  if (va !== '(' && va !== ')' && va !== '+' && va !== '*' && isNaN(va)) {
-    return false;
-  } else {
+  if (va == '(' || va == ')' || va == '+' || va == '*' || !isNaN(va)) {
     return true;
+  } else {
+    return false;
   }
 };
 
@@ -53,20 +52,17 @@ export const doesConvertionCompleted = arr => {
   return returnValue;
 };
 
-
-
-
-export const isHaveValidParanthesis = (str) => {
+export const isHaveValidParanthesis = str => {
   let brackets = [];
-    for (let i = 0; i < str.length; i++) {     
-        if (str[i] === "(") {
-            brackets.push(str[i]);
-        } else if (str[i] === ")") {
-            if (brackets[brackets.length - 1] === "(") brackets.pop();
-            else brackets.push("#");
-        }
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '(') {
+      brackets.push(str[i]);
+    } else if (str[i] === ')') {
+      if (brackets[brackets.length - 1] === '(') brackets.pop();
+      else brackets.push('#');
     }
-    return brackets.length;
+  }
+  return brackets.length;
 };
 
 export const convertion = (text, rawData) => {
@@ -76,6 +72,7 @@ export const convertion = (text, rawData) => {
   let i = 0;
   while (true) {
     let temp = findValue(splited[i], rawData);
+
     if (checkValue(temp)) {
       splited[i] = temp;
       i++;
@@ -90,13 +87,14 @@ export const convertion = (text, rawData) => {
     let reomvedString = splited.filter(e => e);
     updatedEx = updatedEx + reomvedString.join('');
   }
-  console.log(updatedEx,"updatedEx")
   if (updatedEx) {
-    try{
-      return eval(updatedEx).toString()
-    }catch{
-      return ''
+    if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {
+         updatedEx = updatedEx.slice(0, -1);
     }
-    
+    try {
+      return eval(updatedEx).toString();
+    } catch {
+      return '';
+    }
   }
 };

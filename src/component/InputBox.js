@@ -2,7 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
 const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
-import {convertion, isHaveValidParanthesis} from '../util';
+import {
+  convertion,
+  isHaveValidParanthesis,
+  doesConvertionCompleted,
+} from '../util';
 import Toast from 'react-native-toast-message';
 
 const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
@@ -70,18 +74,23 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData}) => {
               text1: 'Invalid input',
               text2: 'This is not a valid input',
             });
-            onChangeText({x, y}, '0')
+            onChangeText({x, y}, '0');
             return;
           }
+          
           if (rowData?.[y]?.[x] !== text) {
             if (updateText.endsWith('+') || updateText.endsWith('*')) {
               updateText = updateText.slice(0, -1);
             }
-            updateText = `(${updateText})`;
+            if (doesConvertionCompleted(updateText)) {
+              updateText = eval(updateText).toString();
+            } else {
+              updateText = `(${updateText})`;
+            }
             onChangeText({x, y}, updateText);
           }
         } else {
-          onChangeText({x, y}, updateText);
+          onChangeText({x, y}, text);
         }
       } else {
         setText('');
