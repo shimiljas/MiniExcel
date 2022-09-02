@@ -28,16 +28,17 @@ const InputBox = ({
   const [converted, setConverted] = useState('');
 
   useEffect(() => {
-    if (text?.indexOf(updatedCell) > -1) {
+     if (rowData?.[y]?.[x]) {
       let converted = stringConvertion(text, rowData);
-      if (converted?.length == 0) {
-        setConverted('');
-        setText('');
-        removeText({x, y});
-      }
+      // console.log(converted,"convertedconverted")
+      // if (converted?.length == 0) {
+      //   setConverted('');
+      //   setText('');
+      //   removeText({x, y});
+      // }
       if (converted) setConverted(converted);
     }
-  }, [updatedCell]);
+  }, [rowData]);
 
   const onSubmitEditing = () => {
     if (
