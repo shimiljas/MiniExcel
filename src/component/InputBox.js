@@ -10,12 +10,37 @@ import {
   checkPremtive,
   isHaveValidParanthesis,
   isValidBracket,
-  checkExpression
+  checkExpression,
 } from '../uti';
 
-const InputBox = ({onChangeText, returnKeyType, x, y, rowData, removeText}) => {
+const InputBox = ({
+  onChangeText,
+  returnKeyType,
+  x,
+  y,
+  rowData,
+  removeText,
+  updatedCell,
+}) => {
   const [text, setText] = useState(rowData?.[y]?.[x]);
   const [converted, setConverted] = useState('');
+   
+   
+  useEffect(()=>{
+     if(text?.indexOf(updatedCell)>-1) {
+      let converted = stringConvertion(text, rowData)
+      console.log(converted,"converted")
+      if (converted?.length == 0) {
+        setConverted('');
+        setText('')
+        removeText({x, y});
+      }
+      if(converted)setConverted(converted);
+     }
+  },[updatedCell])
+   
+  
+    
 
   const onSubmitEditing = () => {
     if (validateText(text) && isValidBracket(text) == 0) {

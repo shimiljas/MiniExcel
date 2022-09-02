@@ -1,33 +1,31 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Row from './Row';
+import {renderHeader} from './Row';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       data: {},
+      updatedCell: '',
     };
   }
-
-  
 
   handleChangedCell = ({x, y}, value) => {
     let modifiedData = Object.assign({}, this.state.data);
     if (!modifiedData[y]) modifiedData[y] = {};
-    modifiedData[y][x] =value;
-    this.setState({data: modifiedData},()=>{
-      console.log(this.state.data)
-    });
+    modifiedData[y][x] = value;
+    this.setState({data: modifiedData, updatedCell: `${renderHeader(x)}${y}`});
   };
-  removeText=({x,y})=>{
+  removeText = ({x, y}) => {
     let modifiedData = Object.assign({}, this.state.data);
-     if(modifiedData?.[y]?.[x]) delete modifiedData[y][x]
-     this.setState({data: modifiedData},()=>{
-      console.log(this.state.data)
-    });
-
-  }
+    if (modifiedData?.[y]?.[x]) {
+      this.setState({updatedCell: `${renderHeader(x)}${y}`});
+      delete modifiedData[y][x];
+    }
+    this.setState({data: modifiedData});
+  };
 
   render() {
     const rows = [];
@@ -45,6 +43,7 @@ export default class Table extends React.Component {
             handleChangedCell={this.handleChangedCell}
             rowData={this.state.data}
             removeText={this.removeText}
+            updatedCell={this.state.updatedCell}
           />
         </View>,
       );

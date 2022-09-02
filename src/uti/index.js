@@ -179,7 +179,7 @@ export const stringConvertion = (text, rowData) => {
     }
     try {
       return eval(updatedEx).toString();
-    } catch {
+    } catch(err) {
       return '';
     }
   }

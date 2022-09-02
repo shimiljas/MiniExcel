@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import InputBox from './InputBox';
-const renderHeader = c => {
+export const renderHeader = c => {
   if (c == 0) return 'A';
   if (c == 1) return 'B';
   if (c == 2) return 'C';
@@ -24,6 +24,7 @@ const Row = props => {
           onChangeText={props.handleChangedCell}
           rowData={props?.rowData}
           removeText={props.removeText}
+          updatedCell={props.updatedCell}
         />
       </View>,
     );
