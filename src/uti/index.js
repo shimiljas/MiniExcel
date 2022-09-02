@@ -48,7 +48,12 @@ export const validateText = str => {
   return valid;
 };
 
-const convertString = variable => {
+
+export const checkSameCell=(str,cell)=>{
+  return (str.indexOf(cell) > -1) 
+}
+
+export const convertString = variable => {
   if (variable == 'a' || variable == 'A') return 0;
   if (variable == 'b' || variable == 'B') return 1;
   if (variable == 'c' || variable == 'C') return 2;

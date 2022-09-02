@@ -11,7 +11,9 @@ import {
   isHaveValidParanthesis,
   isValidBracket,
   checkExpression,
+  checkSameCell,
 } from '../uti';
+import {renderHeader} from '../component/Row';
 
 const InputBox = ({
   onChangeText,
@@ -38,7 +40,11 @@ const InputBox = ({
   }, [updatedCell]);
 
   const onSubmitEditing = () => {
-    if (validateText(text) && isValidBracket(text) == 0) {
+    if (
+      validateText(text) &&
+      isValidBracket(text) == 0 &&
+      !checkSameCell(text?.toUpperCase(), `${renderHeader(x)}${y}`)
+    ) {
       let modified = text;
       if (!isNaN(text)) {
         modified = text;
@@ -56,7 +62,9 @@ const InputBox = ({
         Toast.show({
           type: 'error',
           text1: 'Invalid input',
-          text2: 'This is not a valid input',
+          text2: checkSameCell(text?.toUpperCase(), `${renderHeader(x)}${y}`)
+            ? 'You cant use same raw'
+            : 'This is not a valid input',
         });
       }
       setText('');
