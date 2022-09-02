@@ -24,23 +24,18 @@ const InputBox = ({
 }) => {
   const [text, setText] = useState(rowData?.[y]?.[x]);
   const [converted, setConverted] = useState('');
-   
-   
-  useEffect(()=>{
-     if(text?.indexOf(updatedCell)>-1) {
-      let converted = stringConvertion(text, rowData)
-      console.log(converted,"converted")
+
+  useEffect(() => {
+    if (text?.indexOf(updatedCell) > -1) {
+      let converted = stringConvertion(text, rowData);
       if (converted?.length == 0) {
         setConverted('');
-        setText('')
+        setText('');
         removeText({x, y});
       }
-      if(converted)setConverted(converted);
-     }
-  },[updatedCell])
-   
-  
-    
+      if (converted) setConverted(converted);
+    }
+  }, [updatedCell]);
 
   const onSubmitEditing = () => {
     if (validateText(text) && isValidBracket(text) == 0) {
@@ -57,13 +52,15 @@ const InputBox = ({
       onChangeText({x, y}, modified);
       setText(modified?.toUpperCase());
     } else {
+      if (text.length > 0) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid input',
+          text2: 'This is not a valid input',
+        });
+      }
       setText('');
       removeText({x, y});
-      Toast.show({
-        type: 'error',
-        text1: 'Invalid input',
-        text2: 'This is not a valid input',
-      });
     }
   };
   onBlur = () => {
