@@ -10,6 +10,7 @@ import {
   checkPremtive,
   isHaveValidParanthesis,
   isValidBracket,
+  checkExpression
 } from '../uti';
 
 const InputBox = ({onChangeText, returnKeyType, x, y, rowData, removeText}) => {
@@ -18,7 +19,7 @@ const InputBox = ({onChangeText, returnKeyType, x, y, rowData, removeText}) => {
 
   const onSubmitEditing = () => {
     if (validateText(text) && isValidBracket(text) == 0) {
-      let modified = '';
+      let modified = text;
       if (!isNaN(text)) {
         modified = text;
       } else if (checkPremtive(text)) {

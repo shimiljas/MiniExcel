@@ -2,7 +2,6 @@ const COLUMNS = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D'];
 export const validateText = str => {
   if (!str) return false;
   let splited = str?.split(/([-+*()\/])/).filter(e => e);
-  console.log(splited,"splited")
   if (splited && splited?.length == 0) return false;
   let valid = true;
   for (let i = 0; i < splited?.length; i++) {
@@ -26,7 +25,7 @@ export const validateText = str => {
       typeof splited[i]?.charAt(0) !== 'string' ||
       isNaN(splited[i]?.charAt(1) * 1)
     ) {
-      console.log("herer------>1")
+      console.log('herer------>1');
       valid = false;
       break;
     }
@@ -35,7 +34,7 @@ export const validateText = str => {
       isNaN(splited[i].charAt(0)) &&
       !COLUMNS.includes(splited[i].charAt(0))
     ) {
-      console.log("herer------>2")
+      console.log('herer------>2');
       valid = false;
       break;
     }
@@ -44,10 +43,8 @@ export const validateText = str => {
       break;
     }
   }
-  if (str.endsWith('+') || str.endsWith('*')) return false;
-  // let temp=str.split(/([-+*()\/])/).filter(e => e)
-  // console.log(temp,"temptemp")
-  // // if(temp?.length>3) return false
+  if (str.endsWith('+') || str.endsWith('*')) return false
+  if(!checkExpression(str)) return false
   return valid;
 };
 
@@ -58,15 +55,14 @@ const convertString = variable => {
   if (variable == 'd' || variable == 'D') return 3;
 };
 
-export const checkPremtive = (text) => {
-  let arr=text.split(/([-+*()\/])/).filter(e => e)
+export const checkPremtive = text => {
+  let arr = text.split(/([-+*()\/])/).filter(e => e);
   if (arr.length !== 1) return false;
   return !(arr.includes('+') || arr.includes('*'));
 };
 
-
 export const isHaveValidParanthesis = str => {
-  return (str.charAt(0)=='(' && str.charAt(str.length - 1)==')')
+  return str.charAt(0) == '(' && str.charAt(str.length - 1) == ')';
 };
 
 export const isValidBracket = str => {
@@ -92,14 +88,99 @@ const findPremtiveValue = (param, rawData) => {
   }
 };
 
+const findValue = (param, rawData) => {
+  if (!isNaN(param)) {
+    return param;
+  } else if (param == '+' || param == '*' || param == ')' || param == '(') {
+    return param;
+  } else {
+    let colOne = convertString(param.charAt(0));
+    let rowOne = Number(param.replace(/^\D+/g, ''));
+    if (rawData?.[rowOne]?.[colOne]) {
+      return rawData?.[rowOne]?.[colOne];
+    } else {
+      return '0';
+    }
+  }
+};
+
+const checkValue = va => {
+  if (va == '(' || va == ')' || va == '+' || va == '*' || !isNaN(va)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const checkValueExlcudeNumber = va => {
+  if (va == '(' || va == ')' || va == '+' || va == '*' ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+
+export const checkExpression=(text)=>{
+  if(!isNaN(text)) return true
+  if(checkPremtive(text)) return true
+  let splited = text?.split(/([-+*()\/])/).filter(e => e);
+  let count=0
+   if(splited?.length>0){
+     for(let i=0;i<splited.length;i++){
+        if(!checkValueExlcudeNumber(splited[i])) count++
+     }
+   }
+   return count==2?true:false
+}
+
+const doesConvertionCompleted = arr => {
+  let returnValue = true;
+  for (let i = 0; i < arr.length; i++) {
+    if (
+      arr[i] !== '(' &&
+      arr[i] !== ')' &&
+      arr[i] !== '+' &&
+      arr[i] !== '*' &&
+      isNaN(arr[i])
+    ) {
+      returnValue = false;
+    }
+  }
+  return returnValue;
+};
+
 export const stringConvertion = (text, rowData) => {
   let updatedEx = '';
   let splited = text.split(/([-+*()\/])/).filter(e => e);
   if (checkPremtive(text)) {
     return findPremtiveValue(text, rowData);
   }
-
-  console.log(splited,"splited")
-
-  return text
+  let i = 0;
+  while (true) {
+    let temp = findValue(splited[i], rowData);
+    if (checkValue(temp)) {
+      splited[i] = temp;
+      i++;
+    } else {
+      let tempArray = temp.split(/([-+*()\/])/).filter(e => e);
+      splited.splice(...[i, 1].concat(tempArray));
+      i = 0;
+    }
+    if (doesConvertionCompleted(splited)) break;
+  }
+  if (splited && splited?.length > 0) {
+    let reomvedString = splited.filter(e => e);
+    updatedEx = updatedEx + reomvedString.join('');
+  }
+  if (updatedEx) {
+    if (updatedEx.endsWith('+') || updatedEx.endsWith('*')) {
+      updatedEx = updatedEx.slice(0, -1);
+    }
+    try {
+      return eval(updatedEx).toString();
+    } catch {
+      return '';
+    }
+  }
 };
