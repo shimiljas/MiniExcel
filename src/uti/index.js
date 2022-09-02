@@ -43,15 +43,14 @@ export const validateText = str => {
       break;
     }
   }
-  if (str.endsWith('+') || str.endsWith('*')) return false
-  if(!checkExpression(str)) return false
+  if (str.endsWith('+') || str.endsWith('*')) return false;
+  if (!checkExpression(str)) return false;
   return valid;
 };
 
-
-export const checkSameCell=(str,cell)=>{
-  return (str.indexOf(cell) > -1) 
-}
+export const checkSameCell = (str, cell) => {
+  return str.indexOf(cell) > -1;
+};
 
 export const convertString = variable => {
   if (variable == 'a' || variable == 'A') return 0;
@@ -118,26 +117,25 @@ const checkValue = va => {
 };
 
 const checkValueExlcudeNumber = va => {
-  if (va == '(' || va == ')' || va == '+' || va == '*' ) {
+  if (va == '(' || va == ')' || va == '+' || va == '*') {
     return true;
   } else {
     return false;
   }
 };
 
-
-export const checkExpression=(text)=>{
-  if(!isNaN(text)) return true
-  if(checkPremtive(text)) return true
+export const checkExpression = text => {
+  if (!isNaN(text)) return true;
+  if (checkPremtive(text)) return true;
   let splited = text?.split(/([-+*()\/])/).filter(e => e);
-  let count=0
-   if(splited?.length>0){
-     for(let i=0;i<splited.length;i++){
-        if(!checkValueExlcudeNumber(splited[i])) count++
-     }
-   }
-   return count==2?true:false
-}
+  let count = 0;
+  if (splited?.length > 0) {
+    for (let i = 0; i < splited.length; i++) {
+      if (!checkValueExlcudeNumber(splited[i])) count++;
+    }
+  }
+  return count == 2 ? true : false;
+};
 
 const doesConvertionCompleted = arr => {
   let returnValue = true;
@@ -184,7 +182,7 @@ export const stringConvertion = (text, rowData) => {
     }
     try {
       return eval(updatedEx).toString();
-    } catch(err) {
+    } catch (err) {
       return '';
     }
   }

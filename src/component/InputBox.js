@@ -28,14 +28,8 @@ const InputBox = ({
   const [converted, setConverted] = useState('');
 
   useEffect(() => {
-     if (rowData?.[y]?.[x]) {
+    if (rowData?.[y]?.[x]) {
       let converted = stringConvertion(text, rowData);
-      // console.log(converted,"convertedconverted")
-      // if (converted?.length == 0) {
-      //   setConverted('');
-      //   setText('');
-      //   removeText({x, y});
-      // }
       if (converted) setConverted(converted);
     }
   }, [rowData]);
